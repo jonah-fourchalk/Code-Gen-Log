@@ -1,6 +1,5 @@
 //checks all lower sections of the CodeGen Log
 //ex: "--> from property" sections
-
 var rfn = require('./remove-type-names');
 var ca = require('./create-arrays');
 var cfs = require('./check-first-section');
