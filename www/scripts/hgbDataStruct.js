@@ -13,43 +13,49 @@
 /* eslint-disable no-alert */
 /* eslint-disable max-len */
 
-
-// recursively creates the html string for each nested button set, to be appended to the main div
-function createStructure(array, i, j) {
+// recursively creates one directory top to bottom
+function createStructure(array, i, j, prop = '') {
     let type = array[i][j];
     let message = '';
     if (!type.parent) {
-        message += '<div class="buttons"><button class="bottom">from method ' + type.addedType + '</button></div>';
+        // no parent means we are at the bottom of the directory
+        message += '<div class="buttons inner"><button class="bottom">from method ' + type.addedType + '</button></div>';
     } else {
-        message += '<div class="buttons"><button class="container">' + type.addedType + '</button></div>';
-        if (type.property) {
-            message += '<div class="block"><div class="property">from property ' + type.property + '</div>';
+        // if the element has a parent, make a div containing the type being added
+        if (prop) {
+            message += '<div class="buttons inner"><button class="container">' + type.addedType + '</button>';
+            message += '<button class="property">' + prop + '</button>';
+        } else {
+            message += '<div class="buttons"><button class="top">' + type.addedType + '</button>';
         }
-        message += createStructure(array, i - 1, array[i - 1].findIndex(o => o.addedType === type.parent));
+        // nest another block containing the object's parent, which must be in the previous array
+        message += '</div><div class="block">' + createStructure(array, i - 1, array[i - 1].findIndex(o => o.addedType === type.parent), type.property);
     }
+    // close every div of class "block" before returning the structure
     message += '</div>';
     return message;
 }
 
-// loops through the array to add the nested button sets to the main div
+// appends directories from createStructure to the website
 function displayLog(array) {
     for (let i = array.length - 1; i >= 0; i--) {
         for (let j = 0; j < array[i].length; j++) {
-
-            // ensures only bottom level AddTypes are shown at top level
             if (array[i][j].child === 0) {
+                // no children -> the type is at the uppermost level
                 if (!array[i][j].parent) {
+                    // no parent and no children -> the method is by itself
                     $('div.main').append('<div class="block"><div class="buttons"><button class="empty">' + array[i][j].addedType + '</button></div></div>');
                 } else {
+                    // creates a block starting from the top level (when child === 0) and appends it to the website
                     $('div.main').append('<div class="block">' + createStructure(array, i, j));
                 }
             }
         }
     }
-
-    // adds the click event to each button
+    // creates accordion style buttons
     $('.buttons').next().hide();
-    $('button:not(.bottom, .empty)').click((event) => {
+    // hide/show everything on load using line above
+    $('button:not(.bottom, .empty, .property)').click((event) => {
         let target = $(event.target);
         if (target.is('button')) {
             target.toggleClass('open');
