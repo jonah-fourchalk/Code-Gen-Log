@@ -14,8 +14,7 @@
 /* eslint-disable max-len */
 
 // recursively creates one directory top to bottom
-function createStructure(array, i, j, prop = '') {
-    let type = array[i][j];
+function createStructure(array, type, prop = '') {
     let message = '';
     if (!type.parent) {
         // no parent means we are at the bottom of the directory
@@ -29,7 +28,7 @@ function createStructure(array, i, j, prop = '') {
             message += '<div class="buttons"><button class="top">' + type.addedType + '</button>';
         }
         // nest another block containing the object's parent, which must be in the previous array
-        message += '</div><div class="block">' + createStructure(array, i - 1, array[i - 1].findIndex(o => o.addedType === type.parent), type.property);
+        message += '</div><div class="block">' + createStructure(array, array.find(o => o.addedType === type.parent), type.property);
     }
     // close every div of class "block" before returning the structure
     message += '</div>';
@@ -39,16 +38,14 @@ function createStructure(array, i, j, prop = '') {
 // appends directories from createStructure to the website
 function displayLog(array) {
     for (let i = array.length - 1; i >= 0; i--) {
-        for (let j = 0; j < array[i].length; j++) {
-            if (array[i][j].child === 0) {
-                // no children -> the type is at the uppermost level
-                if (!array[i][j].parent) {
-                    // no parent and no children -> the method is by itself
-                    $('div.main').append('<div class="block"><div class="buttons"><button class="empty">' + array[i][j].addedType + '</button></div></div>');
-                } else {
-                    // creates a block starting from the top level (when child === 0) and appends it to the website
-                    $('div.main').append('<div class="block">' + createStructure(array, i, j));
-                }
+        if (array[i].children === 0) {
+            // no children -> the type is at the uppermost level
+            if (!array[i].parent) {
+                // no parent and no children -> the method is by itself
+                $('div.main').append('<div class="block"><div class="buttons"><button class="empty">' + array[i].addedType + '</button></div></div>');
+            } else {
+                // creates a block starting from the top level (when child === 0) and appends it to the website
+                $('div.main').append('<div class="block">' + createStructure(array, array[i]));
             }
         }
     }

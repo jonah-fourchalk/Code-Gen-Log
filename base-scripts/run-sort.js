@@ -2,7 +2,7 @@
 //outputs to console
 //**NOTE** IMPORTANT: must run browserify on this file to make any changes
 //browserify this file to: script.js
-var cll = require('./check-lower-levels');
+var sj = require('./sort-json');
 
 window.runSort = function(event) {
     var input = event.target;
@@ -13,7 +13,8 @@ window.runSort = function(event) {
     reader.onload = function() {
         $('.main div').empty();
         var text = reader.result;
-        sortedObj = cll.checkLowerLevels(text);
+        sortedObj = sj.sortJSON(text);
+        console.log("sorted");
         displayLog(sortedObj);
     }
     reader.readAsText(input.files[0]);
