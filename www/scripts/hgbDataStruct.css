@@ -1,86 +1,103 @@
 * {
-    vertical-align: left;
     font-family: Arial, Helvetica, sans-serif;
     outline: none;
     font-size: 16px;
     border: none;
     background-color: rgb(245, 245, 245);
-}
-
+  }
+  
   h1 {
       font-size: 24px;
       text-align: center;
   }
-
-  div.block{
-    margin: 7px 35px;
+  
+  div.main {
+    margin-left: -30px;
   }
-
+  
+  div.block{
+    margin: 7px 0px 7px 35px;
+  }
+  
   div.buttons {
     overflow: hidden;
     display: flex;
   }
-
-  button.container, button.top {
+  
+  button {
     width: auto;
     max-width: 70vw;
     cursor: pointer;
     border: 1px solid black;
     float: left;
   }
-
-  button.top {
+  
+  button.top, .empty, .bottom {
     border-radius: 4px;
   }
-
+  
   button.container:hover, button.top:hover {
     background-color: rgb(160, 160, 160);
   }
-
+  
   button {
     text-align: left;
     margin-top: 10px;
     border-radius: 4px 0px 0px 4px;
     height: auto;
   }
-
+  
   button:active {
     color: black;
   }
-
+  
   button.container:before, button.top:before {
-    content: '\002B'; /* Unicode character for "plus" sign (+) */
+    content: "\2212"; /* Unicode character for "minus" sign (-) */
+    
     color: rgb(0, 0, 0);
     float: left;
     margin-right: 5px;
   }
-
+  
   button.open:before{
-    content: "\2212"; /* Unicode character for "minus" sign (-) */
+    content: '\002B'; /* Unicode character for "plus" sign (+) */
   }
-
+  
   .bottom {
     position: relative; 
   }
-
-  .bottom, .empty {
+  
+  .bottom, .empty, .property {
     background-color: yellow;
     padding: 5px;
+    cursor: default !important;
   }
-
+  
   .property {
     border: 1px solid black;
     border-radius: 0px 4px 4px 0px;
     height: auto;
-    background-color: yellow;
     margin-left: -1px;
     float: left;
-
+  
   }
-
+  
   .inner:before {
     font-size: 24px;
     content: '\21b3'; /* Unicode character for an arrow pointing downwards with the tip rightwards */
     float: left;
   }
-
+  
+  .inner {
+    margin-left: -12px;
+  }
+  
+  textarea {
+    width: 100%;
+    height: 350px;
+    background: #fff;
+    border: 1px solid #000;
+  }
+  textarea.error {
+    color: red;
+  }
