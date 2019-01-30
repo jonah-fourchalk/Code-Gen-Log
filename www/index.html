@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <head>
     <title>CodeGen Log</title>
@@ -5,12 +6,30 @@
 </head>
 <body>
     <h1>CodeGen Log</h1>
-    <h3>Upload the CodeGen Log</h3>
-    <input type='file' accept='text/plain' onchange='runSort(event)'><br>
+    <div class="script-panel">
+            <textarea id="txt1" readonly="readonly">There is an error</textarea>
+    </div>
+    
     <div class="main">
         <!--Our log here-->
     </div>
     <script type="text/javascript" src="scripts/jquery-3.3.1.js"></script>
     <script src="scripts/hgbDataStruct.js"></script>
-    <script src='scripts/scripts.js'></script>
+    <script src="scripts/sort-json.js"></script>
+    <script src="scripts/run-sort.js"></script>
+    <script>
+        try{
+            var jsonObj = $.getJSON('scripts/code-gen-log.json',function(){
+                console.log("success");
+            })
+            .done(function(data){
+                var sorted = window.runSort(data);
+                displayLog(sorted);
+            });
+        } catch(err){
+            var messageBox = document.getElementById("txt1");
+            messageBox.innerHTML = err.message;
+            messageBox.classList.add("error");
+        }
+    </script>
 </body>
