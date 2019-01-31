@@ -1,35 +1,14 @@
-
 <!DOCTYPE html>
 <head>
     <title>CodeGen Log</title>
     <link rel="stylesheet" href="scripts/hgbDataStruct.css">
 </head>
+
 <body>
-    <h1>CodeGen Log</h1>
-    <div class="script-panel">
-            <textarea id="txt1" readonly="readonly">There is an error</textarea>
-    </div>
-    
-    <div class="main">
-        <!--Our log here-->
-    </div>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="scripts/hgbDataStruct.js"></script>
-    <script src="scripts/sort-json.js"></script>
-    <script src="scripts/run-sort.js"></script>
-    <script>
-        try{
-            var jsonObj = $.getJSON('scripts/code-gen-log.json',function(){
-                console.log("success");
-            })
-            .done(function(data){
-                var sorted = window.runSort(data);
-                displayLog(sorted);
-            });
-        } catch(err){
-            var messageBox = document.getElementById("txt1");
-            messageBox.innerHTML = err.message;
-            messageBox.classList.add("error");
-        }
-    </script>
+    <log-json>code-gen-log.json</log-json>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="scripts/log-json.js"></script>
+    <script src="scripts/sort-log.js"></script>
+    <script src="scripts/display-log.js"></script>
 </body>
