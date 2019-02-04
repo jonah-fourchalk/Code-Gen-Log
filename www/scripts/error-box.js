@@ -27,7 +27,7 @@ class Error extends HTMLElement {
             // contains all addedTypes that appear more than once
             // generate the error box content
             let errString = '';
-            if (duplicateTypes !== []) {
+            if (duplicateTypes != false) {
                 errString += 'Duplicate model name(s)';
                 for (let i = 0; i < duplicateTypes.length; i++) {
                     if (i === duplicateTypes.length - 1) {
@@ -44,7 +44,7 @@ class Error extends HTMLElement {
             div.setAttribute("id", "error");
             $("h1").after(div);
             $('#error').append(errString);
-            if (duplicateTypes === []) {
+            if (duplicateTypes == false) {
                 // changes error box style
                 $('#error').attr('id', 'noerror');
             }
