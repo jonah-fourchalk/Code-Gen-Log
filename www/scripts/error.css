@@ -1,0 +1,15 @@
+div#error, div#noerror {
+    height: 200px;
+    border: 2px solid black;
+    padding: 5px;
+    background-color: white;
+}
+
+div#error {
+    color: red;
+    text-decoration: underline;
+}
+
+div#noerror {
+    color: yellowgreen;
+}
