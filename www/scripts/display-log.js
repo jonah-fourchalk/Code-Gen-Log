@@ -26,9 +26,6 @@ class DisplayLog extends HTMLElement {
                 typeButton.className = "bottom";
                 typeButton.innerText = "from method "
             } else {
-                // TEMPORARY: adds all addtypes to the display box for highlight testing
-                $("#errorbox").append(type.addedType);
-                $("#errorbox").append("<br>");
                 // if the element has a parent, make a div containing the type being added
                 if (prop) {
                     div.className += " inner";
