@@ -1,15 +1,25 @@
 class SortLog extends HTMLElement {
     constructor() {
         super();
+        
+        // gets the json file from the source, and runs the sorting on it if it works
+        var urlJSON = this.getAttribute("src");
+        $.getJSON(urlJSON, function () {
+        })
+        .done(function (data) {
+            sortLog(data);
+            var displayLog = document.createElement("display-log");
+            document.getElementsByTagName("body")[0].appendChild(displayLog);
+        })
+        .fail(function () {
+            console.log("error");
+        });
 
-        this.style.display = "none";
-
-        function sortLog() {
-            var obj = JSON.parse(document.getElementsByTagName('sort-log')[0].textContent);
+        //sorts the object and saves it in local storage for later use
+        function sortLog(obj) {
             var sorted = sortJSON(obj);
-            var display = document.getElementsByTagName('display-log')[0];
-            display.innerText = JSON.stringify(sorted);
-            console.log(sorted);
+            localStorage.setItem("sorted-obj", JSON.stringify(sorted));
+
         }
 
         function sortJSON(text) {
@@ -78,36 +88,6 @@ class SortLog extends HTMLElement {
             }
             return tempArr;
         }
-
-        var config = {
-            attributes: true,
-            childList: true,
-            subtree: true
-        };
-        var displayLog = document.createElement("display-log");
-        document.getElementsByTagName("body")[0].appendChild(displayLog);
-
-        // Callback function to execute when mutations are observed
-        var callback = function (mutationsList, observer) {
-            for (var mutation of mutationsList) {
-                if (mutation.type == 'childList') {
-                    console.log('A child node has been added or removed.');
-                    sortLog();
-                    observer.disconnect();
-                }
-                if (mutation.type == 'attributes') {
-                    console.log('The ' + mutation.attributeName + ' attribute was modified.');
-
-                }
-            }
-        };
-
-        // Create an observer instance linked to the callback function
-        var observer = new MutationObserver(callback);
-
-        // Start observing the target node for configured mutations
-        observer.observe(this, config);
-
     }
 }
 customElements.define("sort-log", SortLog);
