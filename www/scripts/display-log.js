@@ -6,7 +6,6 @@ class DisplayLog extends HTMLElement {
         try{
             var sorted = localStorage.getItem("sorted-obj");
             var obj = JSON.parse(sorted);
-            console.log(obj);
             displayLog(obj);
         } catch(err){
             console.error(err);
@@ -71,8 +70,7 @@ class DisplayLog extends HTMLElement {
 
                         div.appendChild(button);
                         block.appendChild(div);
-                        main.appendChild(block);
-                        
+                        main.appendChild(block);   
 
                     } else {
                         // creates a block starting from the top level (when child === 0) and appends it to the website            

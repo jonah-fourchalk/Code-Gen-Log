@@ -9,7 +9,10 @@ class SortLog extends HTMLElement {
         .done(function (data) {
             sortLog(data);
             var displayLog = document.createElement("display-log");
-            document.getElementsByTagName("body")[0].appendChild(displayLog);
+            $("body").append(displayLog);
+            var errorBox = document.createElement("error-box");
+            $("h1").after(errorBox);
+
         })
         .fail(function () {
             console.log("error");
