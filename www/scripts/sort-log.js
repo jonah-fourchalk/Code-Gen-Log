@@ -10,6 +10,56 @@ class SortLog extends HTMLElement {
             var display = document.getElementsByTagName('display-log')[0];
             display.innerText = JSON.stringify(sorted);
             console.log(sorted);
+            displayDuplicates(sorted);
+        }
+
+        function displayDuplicates(sortedArray) {
+            // checks addedTypes in sorted for duplicates, then displays them in the error menu
+            function getAddedType(currentObject, index) {
+                return currentObject.addedType;
+            }
+            function clipName(name, index) {
+                const match = /(^REST)/.exec(name) || /([^.]+)$/.exec(name);
+                if (!/([\[\]])/.test(match)) { // temporary way to avoid the array names
+                    return match && match[1];
+                }
+                else {
+                    return Math.random();
+                }
+            }
+            const addedTypes = sortedArray.map(getAddedType);
+            const filteredAddedTypes = addedTypes.map(clipName);
+            const count = array => 
+                array.reduce((a, b) => 
+                    Object.assign(a, {[b]: (a[b] || 0) + 1}), {});
+
+            const duplicates = dict => 
+                Object.keys(dict).filter((a) => dict[a] > 1);
+
+            const duplicateTypes = duplicates(count(filteredAddedTypes)); 
+            // contains all addedTypes that appear more than once
+            console.log(count(filteredAddedTypes));
+            console.log(duplicateTypes);
+            // generate the error box content
+            let errString = '';
+            if (duplicateTypes !== []) {
+                errString += 'Duplicate model name(s)';
+                for (let i = 0; i < duplicateTypes.length; i++) {
+                    if (i === duplicateTypes.length - 1) {
+                        errString += ' "' + duplicateTypes[i] + '" ';
+                    } else {
+                        errString += ' "' + duplicateTypes[i] + '",';
+                    }
+                } 
+                errString += 'were found. Please change the model name of at least one of the types so each type has a unique name.';
+            } else {
+                errString += 'No duplicate names found.';
+            }
+            $('#error').append(errString);
+            if (duplicateTypes === []) {
+                // changes error box style
+                $('#error').removeAttr('id');
+            }
         }
 
         function sortJSON(text) {
