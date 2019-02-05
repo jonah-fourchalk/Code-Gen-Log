@@ -8,13 +8,8 @@ class Error extends HTMLElement {
                 return currentObject.addedType;
             }
             function clipName(name, index) {
-                const match = /(^REST)/.exec(name) || /([^.]+)$/.exec(name);
-                if (!/([\[\]])/.test(match)) { // TEMPORARY: prevents arrays from appearing in duplicateTypes
-                    return match && match[1];
-                }
-                else {
-                    return Math.random();
-                }
+                const match = /(^REST)/.exec(name) || /(.*?)(?=\[\[)/.exec(name) || /([^.]+)$/.exec(name);
+                return match && match[1];
             }
             const addedTypes = sortedArray.map(getAddedType);
             const filteredAddedTypes = addedTypes.map(clipName);
